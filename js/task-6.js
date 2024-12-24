@@ -14,18 +14,36 @@
 // Усі елементи повинні мати випадковий колір фону. Використовуй готову функцію getRandomHexColor() для отримання
 // випадкового кольору.
 
-// const inputEl = document.querySelector("div input");
-// const createEl = document.querySelectorAll("button");
-// const divEl = document.querySelector("#controls");
-// const logInputValue = () => {
-//   console.log(inputEl.value);
-// };
-// createEl[0].addEventListener("click", logInputValue);
-// createEl[1].addEventListener("click", () => {
-//   createEl[1].removeEventListener("click", logInputValue);
-// });
+const inputEl = document.querySelector("div input");
+const createEl = document.querySelectorAll("button");
+const divEl = document.querySelector("#boxes");
 
-// const newEl = document.createElement("div");
-// if (inputEl.value >= 1 || inputEl.value <= 100) {
-//   divEl.append("div");
-// }
+function getRandomHexColor() {
+  return `#${Math.floor(Math.random() * 16777215)
+    .toString(16)
+    .padStart(6, 0)}`;
+}
+
+function createBoxes(amount) {
+  let size = 30;
+  const elements = [];
+  for (let i = 0; i < amount; i++) {
+    const div = document.createElement("div");
+    div.style.width = `${size}px`;
+    div.style.height = `${size}px`;
+    const randomColor = getRandomHexColor();
+    div.style.backgroundColor = randomColor;
+    elements.push(div);
+    size += 10;
+  }
+  divEl.append(...elements);
+}
+
+createEl[0].addEventListener("click", () => {
+  if (inputEl.value < 1 || inputEl.value > 100) {
+    console.log("Enter valid number");
+    return;
+  }
+  createBoxes(inputEl.value);
+  inputEl.value = "";
+});
